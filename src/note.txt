@@ -1,0 +1,60 @@
+import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link
+
+function MovieList({ movies }) {
+  return (
+    <ul>
+      {movies.map((m) => (
+        m.title ? (
+          <li key={m.id}>
+            {m.title}
+          </li>
+        ) : null
+      ))}
+    </ul>
+  );
+}
+
+function SetOutput({ img, name, movies }) {
+  const imgUrl = "https://image.tmdb.org/t/p/w200/" + img;
+  return (
+    <>
+      <img src={imgUrl} alt="img" />
+      <Link to={{ pathname: '/movieList', state: { movies } }}> {/* Use Link and state */}
+        {name}
+      </Link>
+      {/* No need for MovieList here; it will be rendered on the /movieList route */}
+    </>
+  );
+}
+
+
+// Define the route for the movie list in your main App component
+function App() {
+  return (
+    <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movieList" element={<MovieListPage />} />
+        </Routes>
+    </BrowserRouter>
+  );
+}
+
+function Home() {
+  // Your home component with SetOutput components
+  return (
+    <div>
+        {/* Your SetOutput components here */}
+    </div>
+  );
+}
+
+function MovieListPage() {
+    const { movies } = useLocation().state;
+    return (
+        <div>
+            <MovieList movies={movies}/>
+        </div>
+    );
+}
